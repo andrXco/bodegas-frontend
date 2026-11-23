@@ -1,0 +1,52 @@
+<section aria-labelledby="titulo-registro">
+  <h2 id="titulo-registro">Registrar bodega</h2>
+
+  <form [formGroup]="formulario" (ngSubmit)="guardar()">
+    @let errorNombre = errorDe('nombre');
+    <div>
+      <label for="nombre">Nombre</label>
+      <input
+        id="nombre"
+        type="text"
+        formControlName="nombre"
+        required
+        [readOnly]="guardando()"
+        [attr.maxlength]="longitudMaxima"
+        [attr.aria-invalid]="errorNombre ? 'true' : null"
+        [attr.aria-describedby]="errorNombre ? 'error-nombre' : null"
+      >
+      @if (errorNombre) {
+        <p id="error-nombre">{{ errorNombre }}</p>
+      }
+    </div>
+
+    @let errorUbicacion = errorDe('ubicacion');
+    <div>
+      <label for="ubicacion">Ubicación</label>
+      <input
+        id="ubicacion"
+        type="text"
+        formControlName="ubicacion"
+        required
+        [readOnly]="guardando()"
+        [attr.maxlength]="longitudMaxima"
+        [attr.aria-invalid]="errorUbicacion ? 'true' : null"
+        [attr.aria-describedby]="errorUbicacion ? 'error-ubicacion' : null"
+      >
+      @if (errorUbicacion) {
+        <p id="error-ubicacion">{{ errorUbicacion }}</p>
+      }
+    </div>
+
+    <button type="submit" [disabled]="guardando()">
+      {{ guardando() ? 'Guardando…' : 'Guardar bodega' }}
+    </button>
+
+    @if (confirmacion()) {
+      <p role="status">{{ confirmacion() }}</p>
+    }
+    @if (error()) {
+      <p role="alert">{{ error() }}</p>
+    }
+  </form>
+</section>

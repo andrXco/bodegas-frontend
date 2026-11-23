@@ -1,0 +1,39 @@
+<section aria-labelledby="titulo-productos">
+  <h2 id="titulo-productos">Productos por bodega</h2>
+
+  @switch (estado()) {
+    @case ('cargando') {
+      <p role="status">Cargando productos…</p>
+    }
+    @case ('error') {
+      <p role="alert">No se pudieron cargar los productos.</p>
+      <button type="button" (click)="cargar()">Reintentar</button>
+    }
+    @case ('disponible') {
+      @if (filas().length) {
+        <table aria-labelledby="titulo-productos">
+          <thead>
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Bodega</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (fila of filas(); track fila.producto.id) {
+              <tr>
+                <th scope="row">{{ fila.producto.nombre }}</th>
+                <td>{{ fila.producto.precio | number: '1.0-2' }}</td>
+                <td>{{ fila.producto.cantidad | number: '1.0-0' }}</td>
+                <td>{{ fila.bodega }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p>Todavía no hay productos asociados a una bodega.</p>
+      }
+    }
+  }
+</section>
